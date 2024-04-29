@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package smidovaprojekt4;
 
 import java.io.File;
@@ -17,37 +12,30 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author smido
- */
 public class Kviz extends javax.swing.JFrame {
 
-    ArrayList<BodovaHranice> vicHranic; // jednotlive hranice
-    ArrayList<KvizovaOtazka> otazky; // jednotlive kvizove otazky
-    KvizovaOtazka otazka_data; // aktualne zobrazovana otazka
-    int index = 0; // aktualni poloha uzivatele v kvizu
-    int bodyInt = 0; // uklada uzivateluv dosazeny pocet bodu
-    int celkemBodu = 0; // uklada celkovy pocet bodu
+    ArrayList<BodovaHranice> vicHranic;
+    ArrayList<KvizovaOtazka> otazky;
+    KvizovaOtazka otazka_data;
+    int index = 0;
+    int bodyInt = 0;
+    int celkemBodu = 0;
 
-    /**
-     * Creates new form Kviz
-     */
     public Kviz() {
         initComponents();
-        otazky = new ArrayList<KvizovaOtazka>(); // vytvori prazde pole otazek
-        vicHranic = new ArrayList<BodovaHranice>(); // vytvori prazdne pole hranic
+        otazky = new ArrayList<KvizovaOtazka>();
+        vicHranic = new ArrayList<BodovaHranice>();
     }
 
     public void zobraz() {
-        otazka_data = otazky.get(index); // nacita aktualni otazku
-        otazka.setText(otazka_data.otazka); // zobrazi jmeno otazky
-        pole.setText(""); // vycisti pole
-        if (otazka_data.jeTextova) { // pokud je otazka otevrena, zobrazi textove pole
+        otazka_data = otazky.get(index);
+        otazka.setText(otazka_data.otazka);
+        pole.setText("");
+        if (otazka_data.jeTextova) {
             pole.setEnabled(true);
             odpovedi.setEnabled(false);
             odpovedi.setListData(new String[0]);
-        } else { // pokud se jedna o uzavrenou otazku, skryje textove pole a zobrazi dane moznosti
+        } else {
             odpovedi.setEnabled(true);
             pole.setEnabled(false);
             odpovedi.setListData(otazka_data.odpovediArray());
@@ -56,8 +44,8 @@ public class Kviz extends javax.swing.JFrame {
 
     public boolean spravnaVybrana() { 
         if (otazka_data.jeTextova) {
-            return pole.getText().equalsIgnoreCase(otazka_data.odpovedi.get(0).odpoved);// porovnava uzivatelovu odpoved se spravnou odpovedi, nehledi na velka nebo mala pismena
-        } else { // zjisti, kterou odpoved uzivatel vybral a jestli je spravna, take reaguje pokud uzivatel nic nevybral
+            return pole.getText().equalsIgnoreCase(otazka_data.odpovedi.get(0).odpoved);
+        } else {
             int vyber = odpovedi.getSelectedIndex();
             // kdyz neni nic vybrano
             if (vyber == -1) {
@@ -73,7 +61,7 @@ public class Kviz extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
         var file = new File("./kviz.txt");
         Scanner scanner;
-        try { // pokousi se otevrit soubor
+        try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(
@@ -83,8 +71,8 @@ public class Kviz extends javax.swing.JFrame {
         }
 
         if (scanner.hasNextLine()) {
-            this.setTitle(scanner.nextLine()); // nastavi nazev podle prvniho radku
-        } else { // pokud tento radek chybi, upozorni uzivatele
+            this.setTitle(scanner.nextLine());
+        } else {
             JOptionPane.showMessageDialog(
                     new JFrame(), "Kviz nema nazev.", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
@@ -93,9 +81,9 @@ public class Kviz extends javax.swing.JFrame {
 
         KvizovaOtazka otazka = null;
 
-        while (scanner.hasNextLine()) { // cte kviz radek po radku
+        while (scanner.hasNextLine()) {
             var line = scanner.nextLine();
-            if (line.startsWith("??")) { // nacteni radku s otazkou
+            if (line.startsWith("??")) {
                 if (otazka != null) {
                     if (otazka.odpovedi.isEmpty()) {
                         JOptionPane.showMessageDialog(
@@ -109,7 +97,7 @@ public class Kviz extends javax.swing.JFrame {
                                 JOptionPane.ERROR_MESSAGE);
                         return false;
                     }
-                    Collections.shuffle(otazka.odpovedi); // zamicha poradi odpovedi
+                    Collections.shuffle(otazka.odpovedi);
                     otazky.add(otazka);
                 }
                 otazka = new KvizovaOtazka();
@@ -145,7 +133,7 @@ public class Kviz extends javax.swing.JFrame {
                     return false;
                 }
                 try {
-                    otazka.body = min(Integer.parseInt(line.substring(1)), 1); // ochrana vstupu
+                    otazka.body = min(Integer.parseInt(line.substring(1)), 1);
                 } catch (NumberFormatException ex) {
                     System.out.println("CHYBA! Body otazky nejsou cislo.");
                     JOptionPane.showMessageDialog(
@@ -179,7 +167,7 @@ public class Kviz extends javax.swing.JFrame {
                 odpoved.odpoved = line.substring(1);
                 otazka.odpovedi.add(odpoved);
             } else if (line.startsWith("!")) {
-                var poziceProcent = line.indexOf("%"); // ziska pozici procent v retezci
+                var poziceProcent = line.indexOf("%");
                 if (poziceProcent == -1) {
                     System.out.println("CHYBA! V bodové hranici není symbol procenta.");
                     JOptionPane.showMessageDialog(
@@ -190,7 +178,7 @@ public class Kviz extends javax.swing.JFrame {
                 var hranice = new BodovaHranice();
                 hranice.hodnoceni = line.substring(poziceProcent + 1);
                 try {
-                    hranice.hranice = min(max(Integer.parseInt(line.substring(1, poziceProcent)), 0), 100); //pojisteni proti zakernym programatorum, co by chteli zadavat cisla mimo hranice
+                    hranice.hranice = min(max(Integer.parseInt(line.substring(1, poziceProcent)), 0), 100);
                 } catch (NumberFormatException ex) {
                     System.out.println("CHYBA! Body hranice nejsou cislo.");
                     JOptionPane.showMessageDialog(
@@ -221,12 +209,12 @@ public class Kviz extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        Collections.shuffle(otazka.odpovedi); // prehazi poradi odpovedi
+        Collections.shuffle(otazka.odpovedi);
         otazky.add(otazka);
-        Collections.shuffle(otazky); // prehazi poradi otazek
-        Collections.sort(vicHranic, new Comparator<BodovaHranice>() { // seřadí BodoveHranice podle bodove hranice
+        Collections.shuffle(otazky);
+        Collections.sort(vicHranic, new Comparator<BodovaHranice>() {
             public int compare(BodovaHranice o1, BodovaHranice o2) {
-                return Integer.compare(o1.hranice, o2.hranice); // vrátí porovnání dvou hranic
+                return Integer.compare(o1.hranice, o2.hranice);
             }
         });
         for (int i = 0; i < vicHranic.size(); i++) {
@@ -235,11 +223,6 @@ public class Kviz extends javax.swing.JFrame {
         return true;
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -325,18 +308,18 @@ public class Kviz extends javax.swing.JFrame {
 
     private void OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkActionPerformed
         // TODO add your handling code here:
-        if (odpovedi.getSelectedIndex() == -1 && !otazka_data.jeTextova) { // resi, jestli je vybrana nejaka odpoved
+        if (odpovedi.getSelectedIndex() == -1 && !otazka_data.jeTextova) {
             JOptionPane.showMessageDialog(
                     new JFrame(), "Neni vybrana odpoved!", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (otazka_data.jeTextova && pole.getText().equals("")) { // resi, jestli je vypsana nejaka odpoved
+        } else if (otazka_data.jeTextova && pole.getText().equals("")) {
             JOptionPane.showMessageDialog(
                     new JFrame(), "Neni zadana odpoved!", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (this.spravnaVybrana()) { // kontroluje spravnost odpovedi
+        if (this.spravnaVybrana()) {
             JOptionPane.showMessageDialog(
                     new JFrame(), "Spravna odpoved!", "Dialog",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -351,10 +334,10 @@ public class Kviz extends javax.swing.JFrame {
             index += 1;
             this.zobraz();
         } else {
-            this.setVisible(false); //skryje kvizove okno
+            this.setVisible(false);
             var dosazeneProcento = (int) ((float) bodyInt / (float) celkemBodu * 100);
             JOptionPane.showMessageDialog(
-                    new JFrame(), "Hotovo! Máte " + bodyInt + " bodů. Neboli " + dosazeneProcento + "%.", "Dialog", // vypise pocet bodu
+                    new JFrame(), "Hotovo! Máte " + bodyInt + " bodů. Neboli " + dosazeneProcento + "%.", "Dialog",
                     JOptionPane.INFORMATION_MESSAGE);
             if (vicHranic.size() < 1) {
                 if (dosazeneProcento <= 33) {
@@ -408,7 +391,6 @@ public class Kviz extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Hudba musicObject = new Hudba("hudba.wav");
