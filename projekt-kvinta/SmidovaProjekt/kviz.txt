@@ -1,0 +1,66 @@
+Mafia The City Of Lost Heaven
+??Tommy byl původně?
+#5
++Taxikář
+-Uber Driver
+-Policista
+??Jaké je Tommyho příjmění?
+#5
++Angelo
+-Devilo
+-Salieri
+??Jak se jmenuje mise na parníku?
+#5
++Všechno nejlepší
+-Hodně štěstí zdraví
+-Atentát
+??Jak se jmenuje Tommyho manželka?
+#5
++Sára
+-Samantha
+-Sylva
+??Co našel Paulie mezi doutníky?
+#10
++Diamanty
+-Peníze
+-Drogy
+??Mafie vyšla roku?
+#10
++2002
+-2001
+-2003
+??Jak se jmenuje Salieriho úhlavní nepřítel?
+#5
++Morello
+-Molotov
+-Milius
+??Kdo daboval postavu Paulieho?
+#10
++Petr Rychlý
+-Luděk Čtvrtlík
+-Marek Vašut
+??Kolik misí má hra?
+#10
++20
+-10
+-15
+??Kolik peněz dostal Tommy v první misi?
+#30
++Zatraceně víc než na opravu taxíku
+-třista dolarů
+-akorát na opravu taxíku
+?=Kdy vyšel Remake první Mafie - Mafia Definitive Edition?
+#5
++2020
+?=Kolik dětí měli společně Tom a jeho manželka?
+#5
++1
+?=Kolik dílů Mafie vyšlo, nepočítáme-li definitive editions?
+#5
++3
+?=Kdo na konci Toma zradí?
+#10
++Sam
+!66%Celkem se orientuješ, ale mohlo by to být lepší!
+!33%No moc ses nepředved!
+!100%Jde vidět, že jsi na Mafii vyrůstal. Pan Salieri by tě určitě přivítal do rodiny!
